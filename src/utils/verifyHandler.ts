@@ -1,11 +1,11 @@
 import { NextApiHandler } from "next";
+import { Cookie } from "next-cookie";
 import { auth } from "./firebase-admin";
-import { parseCookie } from "~/utils/parseCookie";
-import { Cookies } from "~/common/types/cookies";
 
 export const verifyHandler: (handler: NextApiHandler) => NextApiHandler = (handler) => {
   return async (req, res) => {
-    const { _SESSION } = parseCookie<Cookies>(req.headers.cookie ?? "");
+    const cookie = new Cookie(req.headers.cookie ?? "");
+    const _SESSION = cookie.get<string>("_SESSION");
 
     try {
       const decodedToken = await auth().verifyIdToken(_SESSION);

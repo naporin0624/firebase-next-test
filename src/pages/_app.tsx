@@ -32,14 +32,15 @@ MyApp.getInitialProps = async (appContext): Promise<AppInitialProps> => {
 
   const store = initializeStore();
   try {
-    const res = await serverSideRequest(req).get<{ me: User }>("/api/me");
-    const { entities, result } = normalizer(res.data.me, userEntity);
+    const response = await serverSideRequest(req).get<{ me: User }>("/api/me");
+    const { entities, result } = normalizer(response.data.me, userEntity);
     store.dispatch(mergeNormalized(entities));
     store.dispatch(currentUserActions.put(result));
   } catch (e) {
-    if (req.url !== "/signin") {
+    if (req.url !== "/signin" && req.url !== "/register") {
       res.writeHead(302, { Location: "/signin" });
       res.end();
+      return;
     }
   }
 

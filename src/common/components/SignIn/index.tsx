@@ -60,7 +60,7 @@ export const SignIn: React.FC<Props> = (props) => {
 
       <div>
         <button className={"bg-blue-500 text-white rounded px-6 py-1"} disabled={!canSubmit}>
-          登録
+          ログイン
         </button>
         <button className={"ml-3 border rounded px-6 py-1"} onClick={clear}>
           クリア
